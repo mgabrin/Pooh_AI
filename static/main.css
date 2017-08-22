@@ -1,0 +1,38 @@
+body {
+	background-color: #FFFF66;
+	max-width: 1000px;
+    margin: auto;
+}
+
+h1 {
+	color: red;
+	font-family: "Lucida Sans Typewriter", "Lucida Console", monaco, "Bitstream Vera Sans Mono", monospace;
+	font-size: 48px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 55px;
+	align-self: center;
+}
+
+
+input {
+	background-color: #FFFF66;
+	border-bottom: 3;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-color: black;
+	font-family: "Lucida Sans Typewriter", "Lucida Console", monaco, "Bitstream Vera Sans Mono", monospace;
+	font-size: 40px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+	align-self: center;
+	width: 100%
+}
+
+input:focus {
+	outline-width: 0
+}
