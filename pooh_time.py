@@ -1,5 +1,6 @@
 import datetime
 import time
+from pooh_io import output
 
 timerStart = time.time()
 timerEnd = time.time()
@@ -14,7 +15,7 @@ def timeStart(command):
 			
 
 def getCurTime():
-	print('\nThe current time is', datetime.datetime.now(), '\n')
+	output('\nThe current time is', datetime.datetime.now(), '\n')
 	return (f'The current time is {str(datetime.datetime.now())}')
 
 def getTimer(command):
@@ -23,7 +24,7 @@ def getTimer(command):
 		return ('Started')
 	elif 'stop' in command:
 		timerEnd = time.time()	
-		print(f'Elapsed time: {timerEnd - timerStart}')
+		output(f'Elapsed time: {timerEnd - timerStart}')
 		return (f'Elapsed time: {timerEnd - timerStart}')
 		timerStart = 0
 		timerEnd = 0

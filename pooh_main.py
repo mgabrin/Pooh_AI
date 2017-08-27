@@ -5,6 +5,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from flask_restful import reqparse, abort, Api, Resource
 from pooh_delegator import delegator, startThread
 from pooh_models import db, PoohUser
+from pooh_voice import poohListen
+from pooh_io import output
 
 import logging
 
@@ -30,7 +32,7 @@ def root():
 	return render_template('index.html');
 
 def start():
-	print('Hello, Mike')
+	output('Hello, Mike')
 	while True:
 		task = input("> ")
 		thread = startThread(delegator(app, task))
@@ -49,5 +51,5 @@ api.add_resource(General, '/general')
 if __name__ == '__main__':
 	stThread = startThread(start)
 	startThread(startApp)
+	startThread(poohListen(app))
 	stThread.join()
-

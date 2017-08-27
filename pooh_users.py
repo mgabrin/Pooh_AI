@@ -1,5 +1,6 @@
 from pooh_models import db, PoohUser
 import json
+from pooh_io import output
 
 curUser = 'mike'
 
@@ -17,52 +18,55 @@ def profileBuilder(app, command):
 				userInfo[key] = val
 				user.additional_info = json.dumps(userInfo)
 				db.session.commit()
-				print('I\'ll remember that')
+				output('I\'ll remember that')
 				return ('I\'ll remember that')
 			else:
-				print('No user')
+				output('No user')
 	return builder
 
 def profileAccessor(app, command):
+	global curUser
 	def accessor():
+		global curUser
 		with app.app_context():
 			user = PoohUser.query.filter_by(name = curUser).first()
-
-			if user:
-				if 'my name' in command:
-					print(f'Your name is {user.name}')
-					return (f'Your name is {user.name}')
-				else:
-					userInfo = json.loads(user.additional_info)
-					for key, val in userInfo.items():
-						if key in command:
-							print(f'Your {key} is {val}')
-							return(f'Your {key} is {val}')
-					print('I don\'t know that yet. Please teach me.')
-					return('I don\'t know that yet. Please teach me.')
-
+		if user:
+			if 'my name' in command:
+				output(f'Your name is {curUser}')
+				return (f'Your name is {curUser}')
 			else:
-				print('No user')
-				return('No user')
+				userInfo = json.loads(user.additional_info)
+				for key, val in userInfo.items():
+					if key in command:
+						output(f'Your {key} is {val}')
+						return(f'Your {key} is {val}')
+				output('I don\'t know that yet. Please teach me.')
+				return('I don\'t know that yet. Please teach me.')
+
+		else:
+			output('No user')
+			return('No user')
 	return accessor
 
 def switchUser(app, userName):
+	global curUser
 	def switch():
+		global curUser
 		with app.app_context():
 			lookupUser = PoohUser.query.filter_by(name = userName).first()
 
 		if lookupUser:
-			print(f'Hello, {userName}')
-			return(f'Hello, {userName}')
+			output(f'Hello, {userName}')
 			curUser = userName
+			return(f'Hello, {userName}')
 		else:
-			print(f'Welcome, {userName}')
-			return(f'Welcome, {userName}')
+			output(f'Welcome, {userName}')
 			newUser = PoohUser(userName)
+			curUser = userName
 			with app.app_context():
-				curUser = userName
+				
 				db.session.add(newUser)
 				db.session.commit()
+			return(f'Welcome, {userName}')
 
-			
 	return switch

@@ -52,7 +52,7 @@ function clean(str) {
 	return str;
 }
 
-async function printString(string) {
+async function outputString(string) {
 	document.getElementById('mainText').innerText = '';
 	
 }

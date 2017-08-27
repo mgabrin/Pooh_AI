@@ -8,15 +8,15 @@ def todoistStart(task):
 		elif 'mark' in task or 'finish' in task or 'complete' in task:
 			completeTask()
 		else:
-			print('I\'m sorry, I couldn\'t complete that request.')
+			output('I\'m sorry, I couldn\'t complete that request.')
 	return todoist
 
 
 def addTask():
-	print('adding')
+	output('adding')
 
 def grabTask():
-	print('grabbing')
+	output('grabbing')
 
 def completeTask():
-	print('completing')
+	output('completing')

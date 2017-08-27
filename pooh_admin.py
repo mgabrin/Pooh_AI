@@ -1,6 +1,7 @@
 from pooh_models import db, PoohUser
 from subprocess import call
 import os
+from pooh_io import output
 
 def adminStart(app):
 	def admin():
@@ -13,13 +14,13 @@ def adminStart(app):
 				if task == 'initialize db':
 					with app.app_context():
 						db.create_all()
-						print('I will store all of my memories here.')
+						output('I will store all of my memories here.')
 				elif task == 'drop db':
 					call(['rm', 'pooh.db'], stdout=open(os.devnull, 'wb'))
-					print('Ok, I have deleted my memory.')
+					output('Ok, I have deleted my memory.')
 				elif 'exit' in task:
-					print('Exiting admin mode')
+					output('Exiting admin mode')
 					return
 		else:
-			print('Invalid Credentials')
+			output('Invalid Credentials')
 	return admin

@@ -14,3 +14,20 @@ class PoohUser(db.Model):
 
 	def __repr__(self):
 		return (self.id)
+
+
+class PoohBlackJack(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	playerHand = db.Column(db.String(40))
+	poohHand = db.Column(db.String(40))
+	hitWins = db.Column(db.Integer)
+	hitLoses = db.Column(db.Integer)
+	stayWins = db.Column(db.Integer)
+	stayLoses = db.Column(db.Integer)
+
+	def __init__(self, playerHand, poohHand):
+		self.playerHand = playerHand
+		self.poohHand = poohHand
+
+	def __repr__(self):
+		return (self.id)

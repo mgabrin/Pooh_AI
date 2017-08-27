@@ -4,6 +4,7 @@ import json
 from subprocess import call
 import os
 import string
+from pooh_io import output
 
 def spotifyStart(task):
 	def spotify():
@@ -40,16 +41,19 @@ def spotifyStart(task):
 			r = requests.get('https://api.spotify.com/v1/search', headers = headers, params=query)
 			call(['spotify', 'play', 'uri', json.loads(r.content)[f'{requestType}s']['items'][0]['uri']], stdout=open(os.devnull, 'wb'))
 			
-			print('\nOk, here you go.\n')
+			output('\nOk, here you go.\n')
 			return('Ok, here you go.')
-		elif 'pause' in task:
+		elif 'pause' in task or 'stop' in task:
 			call(['spotify', 'pause'], stdout=open(os.devnull, 'wb'))
+			output('Ok, stopped')
 			return('Ok')
 		elif 'next' in task:
 			call(['spotify', 'next'], stdout=open(os.devnull, 'wb'))
+			output('Can Do')
 			return('Can Do')
 		elif 'prev' in task:
 			call(['spotify', 'prev'], stdout=open(os.devnull, 'wb'))
+			output('Whatever you say')
 			return('Whatever you say')
 	return spotify
 

@@ -1,6 +1,6 @@
 
 def mathStart(task):
 	def math():
-		print('math')
+		output('math')
 
 	return math;
