@@ -19,9 +19,14 @@ def spotifyStart(task):
 			if 'playlist' in task:
 				requestType = 'playlist'
 				wordArray.remove('playlist')
-			elif 'album' in task:
+			elif 'album' in task or 'music by' in task:
 				requestType = 'album'
-				wordArray.remove('album')
+				if 'album' in task:
+					wordArray.remove('album')
+				else:
+					wordArray.remove('music')
+					wordArray.remove('by')
+
 				path = 'albums.items.[0]'
 			elif 'artist' in task:
 				requestType = 'artist'
@@ -41,20 +46,16 @@ def spotifyStart(task):
 			r = requests.get('https://api.spotify.com/v1/search', headers = headers, params=query)
 			call(['spotify', 'play', 'uri', json.loads(r.content)[f'{requestType}s']['items'][0]['uri']], stdout=open(os.devnull, 'wb'))
 			
-			output('\nOk, here you go.\n')
-			return('Ok, here you go.')
+			output('Ok, here you go.')
 		elif 'pause' in task or 'stop' in task:
 			call(['spotify', 'pause'], stdout=open(os.devnull, 'wb'))
 			output('Ok, stopped')
-			return('Ok')
 		elif 'next' in task:
 			call(['spotify', 'next'], stdout=open(os.devnull, 'wb'))
 			output('Can Do')
-			return('Can Do')
 		elif 'prev' in task:
 			call(['spotify', 'prev'], stdout=open(os.devnull, 'wb'))
 			output('Whatever you say')
-			return('Whatever you say')
 	return spotify
 
 

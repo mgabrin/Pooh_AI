@@ -1,3 +1,6 @@
+let timeout = null;
+
+
 // Function that is used to make all of the ajax http requests to the server
 function makeRequest(reqType, endpoint, data) {
 	return new Promise((resolve, reject) => {
@@ -26,6 +29,10 @@ function makeRequest(reqType, endpoint, data) {
 	});
 }
 
+function startPoll() {
+	// This kicks off our polling
+	timeout = setTimeout(poll, 100);
+}
 
 // Event linstner for enter, which we will send a request for
 window.addEventListener('keypress', (e) => {
@@ -33,8 +40,8 @@ window.addEventListener('keypress', (e) => {
 	if (key === 13) { // 13 is enter
 		let input = document.getElementById('main');
 		makeRequest('POST', '/general', input.value)
-		.then((res) => {
-			res = clean(res);
+		.catch((err) => {
+			res = 'There was an error.';
 			document.getElementById('mainText').textContent = '';
 			for(var i = 0; i<res.length; i++) {
 				(function(index) {
@@ -47,19 +54,38 @@ window.addEventListener('keypress', (e) => {
 	}
 });
 
+function poll() {
+	makeRequest('PUT', '/general')
+	.then((res) => {
+		console.log(res);
+		res = clean(res);
+		if(res != '') {
+			document.getElementById('mainText').textContent = '';
+			for(var i = 0; i<res.length; i++) {
+				(function(index) {
+					setTimeout(function() {
+						document.getElementById('mainText').textContent+=res.charAt(index); 
+					}, 50*i);
+				})(i);
+			}
+		}
+		setTimeout(poll, 100);
+	});
+}
+
 function clean(str) {
 	str = str.substring(1,str.length-2);
 	return str;
 }
 
-async function outputString(string) {
+async function printString(string) {
 	document.getElementById('mainText').innerText = '';
-	
 }
 
 // Rending my basic information
 ReactDOM.render(
 	<span>
+		{startPoll()}
 		<br />
 		<br />
 		<h1 id="mainText">Hello, Mike</h1>

@@ -6,6 +6,7 @@ from pooh_users import profileBuilder, switchUser, profileAccessor
 from pooh_admin import adminStart
 from pooh_blackjack import play
 from pooh_models import db, PoohUser
+from pooh_weather import getWeather
 import threading
 import os
 from pooh_io import output
@@ -30,6 +31,9 @@ def delegator(app, task):
 	# This is where we enter the blackjack game
 	elif 'blackjack' in task.lower():
 		return play(app)
+	# This is where we go to get pooh to tell us the weather
+	elif 'weather' in task.lower() or 'temperature' in task.lower():
+		return getWeather(task)
 	# This is where we can do basic mathematical operations. This will be expanded later
 	elif '+' in task or '-' in task or '/' in task or '*' in task:
 		return mathStart(task)
