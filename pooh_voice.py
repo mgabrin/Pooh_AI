@@ -9,7 +9,7 @@ def poohListen(app):
 				audio = r.listen(source)
 			try:
 				speech = r.recognize_google(audio)
-				print(f'> {speech}')
+				print(speech)
 				thread = startThread(delegator(app, speech))
 
 				thread.join()

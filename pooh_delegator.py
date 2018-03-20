@@ -15,6 +15,7 @@ def delegator(app, task):
 	# This is our exit point
 	if 'quit' in task or 'goodbye' in task  or 'exit' in task:
 		output('\nHave a good rest of your day, Michael\n')
+		
 		return
 	# This will put us into admin mode if the user enters the correct username and password
 	elif 'admin' in task.lower():

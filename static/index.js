@@ -1,5 +1,6 @@
 let timeout = null;
-
+let prevCommands = [];
+let commandIndex = 0;
 
 // Function that is used to make all of the ajax http requests to the server
 function makeRequest(reqType, endpoint, data) {
@@ -40,8 +41,15 @@ window.addEventListener('keypress', (e) => {
 	if (key === 13) { // 13 is enter
 		let input = document.getElementById('main');
 		makeRequest('POST', '/general', input.value)
-		.catch((err) => {
-			res = 'There was an error.';
+		.then(() => {
+			if (prevCommands.length === 100) {
+				prevCommands = prevCommands.slice(1);
+			}
+			prevCommands.push(input.value);
+			commandIndex = prevCommands.length;
+			input.value = '';
+		}).catch((err) => {
+			let res = 'There was an error.';
 			document.getElementById('mainText').textContent = '';
 			for(var i = 0; i<res.length; i++) {
 				(function(index) {
@@ -54,10 +62,25 @@ window.addEventListener('keypress', (e) => {
 	}
 });
 
+window.addEventListener('keydown', (e) => {
+	var key = e.which || e.keyCode;
+	let input = document.getElementById('main');
+	if (key === 40) {
+		if (commandIndex < prevCommands.length) {
+			commandIndex++;
+			input.value = prevCommands[commandIndex] || '';
+		}
+	} else if (key === 38) {
+		if (commandIndex > 0) {
+			commandIndex--;
+			input.value = prevCommands[commandIndex] || '';
+		}
+	}
+});
+
 function poll() {
 	makeRequest('PUT', '/general')
 	.then((res) => {
-		console.log(res);
 		res = clean(res);
 		if(res != '') {
 			document.getElementById('mainText').textContent = '';

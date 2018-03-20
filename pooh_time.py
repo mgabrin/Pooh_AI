@@ -15,7 +15,7 @@ def timeStart(command):
 			
 
 def getCurTime():
-	output('\nThe current time is', datetime.datetime.now(), '\n')
+	output(f'The current time is {str(datetime.datetime.now())}')
 	return (f'The current time is {str(datetime.datetime.now())}')
 
 def getTimer(command):

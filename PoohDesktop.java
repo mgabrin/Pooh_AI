@@ -5,36 +5,27 @@ import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.scene.control.TitledPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-//  w  w  w.j av a2s  . c  o m
+import javafx.stage.StageStyle;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.layout.Background;
+
 public class PoohDesktop extends Application {
   @Override
   public void start(final Stage stage) {
-    stage.setWidth(1250);
-    stage.setHeight(500);
+    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+    stage.setWidth(400);
+    stage.setHeight(200);
+    stage.setX(primaryScreenBounds.getMaxX() *.6);
+    stage.initStyle(StageStyle.UNDECORATED);
     Scene scene = new Scene(new Group());
-
-
-    final WebView browser = new WebView();
-    final WebEngine webEngine = browser.getEngine();
-
-    webEngine.getLoadWorker().stateProperty()
-        .addListener(new ChangeListener<State>() {
-          @Override
-          public void changed(ObservableValue ov, State oldState, State newState) {
-
-            if (newState == Worker.State.SUCCEEDED) {
-              stage.setTitle(webEngine.getLocation());
-            }
-
-          }
-        });
-    webEngine.load("http://localhost:3000");
-
-    scene.setRoot(browser);
+    scene.setBackground(new Background(new BackgroundFill(Color
+            .rgb(17, 119, 255), CornerRadii.EMPTY, Insets.EMPTY)));
 
     stage.setScene(scene);
     stage.show();

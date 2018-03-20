@@ -5,8 +5,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from flask_restful import reqparse, abort, Api, Resource
 from pooh_delegator import delegator, startThread
 from pooh_models import db, PoohUser
-from pooh_voice import poohListen
 from pooh_io import output, checkMessage
+from pooh_voice import poohListen 
 
 import logging
 
@@ -29,6 +29,7 @@ curUser = 'mike'
 
 @app.route('/')
 def root():
+	print('routing!!')
 	return render_template('index.html');
 
 def start():

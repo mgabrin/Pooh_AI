@@ -6,7 +6,7 @@ queueMessage = ''
 def output(message):
 	global queueMessage
 	print(message)
-	poohTalk(message)
+	# poohTalk(message)
 	queueMessage = message
 
 def checkMessage():

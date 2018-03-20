@@ -1,3 +1,4 @@
+from pooh_io import output, checkMessage
 
 def mathStart(task):
 	def math():
